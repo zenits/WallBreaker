@@ -11,10 +11,30 @@ public class Player : MonoBehaviour
     Animator myAnimator;
     [SerializeField] float moveSpeed = 5f;
 
+    BoxCollider2D boxColliderLeft;
+    BoxCollider2D boxColliderRight;
+    BoxCollider2D boxColliderTop;
+    BoxCollider2D boxColliderBottom;
+    Vector3 cellSize;
+
     private void Awake()
     {
+        cellSize = FindObjectOfType<Grid>().cellSize;
         myRigidbody2D = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        var colliders = GetComponents<BoxCollider2D>();
+        foreach (var collider in colliders)
+        {
+            if (collider.offset.x == 1)
+                boxColliderRight = collider;
+            else if (collider.offset.x == -1)
+                boxColliderLeft = collider;
+            else if (collider.offset.y == 1)
+                boxColliderTop = collider;
+            else if (collider.offset.y == -1)
+                boxColliderBottom = collider;
+        }
+
     }
     // Start is called before the first frame update
     void Start()
@@ -43,7 +63,6 @@ public class Player : MonoBehaviour
             myAnimator.SetBool("IsWalkingRight", false);
             myAnimator.SetBool("IsWalkingLeft", false);
         }
-        Debug.Log(myRigidbody2D.velocity.x + " - " + myRigidbody2D.velocity.y);
         if (myRigidbody2D.velocity.y < 0)
         {
             myAnimator.SetBool("IsWalkingUp", false);
@@ -64,7 +83,22 @@ public class Player : MonoBehaviour
             myAnimator.SetBool("IsWalkingUp", true);
             myAnimator.SetBool("IsWalkingDown", false);
         }
-        
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        //Debug.Log("boxColliderLeft" + boxColliderLeft.IsTouching(other).ToString());
+        //Debug.Log("boxColliderRight" + boxColliderRight.IsTouching(other).ToString());
+        //Debug.Log("boxColliderTop" + boxColliderTop.IsTouching(other).ToString());
+        Debug.Log("boxColliderBottom" + boxColliderBottom.IsTouching(other).ToString());
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        //Debug.Log("boxColliderLeft" + boxColliderLeft.IsTouching(other).ToString());
+        //Debug.Log("boxColliderRight" + boxColliderRight.IsTouching(other).ToString());
+        //Debug.Log("boxColliderTop" + boxColliderTop.IsTouching(other).ToString());
+        Debug.Log("boxColliderBottom" + boxColliderBottom.IsTouching(other).ToString());
     }
     void OnMove(InputValue value)
     {

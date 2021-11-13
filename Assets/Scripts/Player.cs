@@ -14,8 +14,10 @@ public class Player : MonoBehaviour
     [SerializeField] int bombCount = 1;
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] GameObject bombPrefab;
-    Grid cellgrid;
+    [SerializeField] int explosionRange = 1;
 
+
+    Grid cellgrid;
     int droppedBomb = 0;
     BoxCollider2D boxColliderLeft;
     BoxCollider2D boxColliderRight;
@@ -127,8 +129,10 @@ public class Player : MonoBehaviour
 
             pos = bgTilemap.CellToWorld(cellPosition) + (cellgrid.cellSize / 2);
             //GameManager.Instance.CreateBomb(this, pos);
-            var bomb = Instantiate(bombPrefab, pos, Quaternion.identity);
-            bomb.GetComponent<BombController>().playerOwner = this;
+            //var bomb = Instantiate(bombPrefab, pos, Quaternion.identity);
+            //bomb.GetComponent<BombController>().playerOwner = this;
+            var bc = BombController.Create(bombPrefab, pos, explosionRange);
+            bc.playerOwner = this;
             droppedBomb++;
         }
     }

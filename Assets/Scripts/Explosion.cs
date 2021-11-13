@@ -21,7 +21,21 @@ public class Explosion : MonoBehaviour
 
     public bool isSourceOfExplosion { get; set; } = false;
 
+    int explosionRange = 1;
+    int currentRange = 0;
+
     BoxCollider2D myCollider;
+
+
+    public static Explosion Create(GameObject prefab, Vector3 position, int explosionRange = 1, bool isSource = false)
+    {
+        GameObject newObject = Instantiate(prefab, position, Quaternion.identity) as GameObject;
+        Explosion result = newObject.GetComponent<Explosion>();
+        result.explosionRange = explosionRange;
+        result.isSourceOfExplosion = isSource;
+        return result;
+    }
+
     private void Awake()
     {
         myAnimator = GetComponent<Animator>();
@@ -39,12 +53,13 @@ public class Explosion : MonoBehaviour
 
     private void Propagate()
     {
-        if (!isSourceOfExplosion)
+        if (!isSourceOfExplosion || currentRange >= explosionRange)
             return;
         offsetRight = (PropagateExplosion(offsetRight, 0)) ? offsetRight + 1 : 0;
         offsetLeft = PropagateExplosion(offsetLeft, 0) ? offsetLeft - 1 : 0;
         offsetTop = PropagateExplosion(0, offsetTop) ? offsetTop + 1 : 0;
         offsetBottom = PropagateExplosion(0, offsetBottom) ? offsetBottom - 1 : 0;
+        currentRange++;
     }
 
     private bool PropagateExplosion(int offsetX, int offsetY)
@@ -59,7 +74,8 @@ public class Explosion : MonoBehaviour
         if (isFree)
         {
             var pos = transform.position + new Vector3(wallTilemap.cellSize.x * offsetX, wallTilemap.cellSize.y * offsetY, 0f);
-            GameManager.Instance.CreateExplosion(pos, null, false);
+            Explosion.Create(this.gameObject, pos);
+            //GameManager.Instance.CreateExplosion(pos, null, false);
             return true;
         }
         else if (stoneTilemap.GetTile(currentCell) != null)
@@ -69,7 +85,7 @@ public class Explosion : MonoBehaviour
 
     void DestroyStone(Vector3Int cell)
     {
-        stoneTilemap.SetTile(cell, null);        
+        stoneTilemap.SetTile(cell, null);
     }
     // Update is called once per frame
     void Update()

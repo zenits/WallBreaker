@@ -104,6 +104,12 @@ public class Player : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (other.tag == "Bomb")
+        {
+            var bc = other.GetComponent<BombController>();
+            if (bc != null && bc.playerOwner == this)
+                bc.GetComponent<BoxCollider2D>().isTrigger = false;
+        }
         //Debug.Log("boxColliderLeft" + boxColliderLeft.IsTouching(other).ToString());
         //Debug.Log("boxColliderRight" + boxColliderRight.IsTouching(other).ToString());
         //Debug.Log("boxColliderTop" + boxColliderTop.IsTouching(other).ToString());
@@ -123,12 +129,13 @@ public class Player : MonoBehaviour
             var cellPosition = bgTilemap.WorldToCell(transform.position);
 
             pos = new Vector3((int)System.Math.Truncate(transform.position.x / cellgrid.cellSize.x) * cellgrid.cellSize.x - cellgrid.cellSize.x / 2,
-                            (int)System.Math.Truncate(transform.position.y / cellgrid.cellSize.y) * cellgrid.cellSize.y + cellgrid.cellSize.x / 2,
-                            0);
+                              (int)System.Math.Truncate(transform.position.y / cellgrid.cellSize.y) * cellgrid.cellSize.y + cellgrid.cellSize.x / 2,
+                              0);
 
             pos = bgTilemap.CellToWorld(cellPosition) + (cellgrid.cellSize / 2);
             //GameManager.Instance.CreateBomb(this, pos);
-            Instantiate(bombPrefab, pos, Quaternion.identity);
+            var bomb = Instantiate(bombPrefab, pos, Quaternion.identity);
+            bomb.GetComponent<BombController>().playerOwner = this;
         }
     }
 

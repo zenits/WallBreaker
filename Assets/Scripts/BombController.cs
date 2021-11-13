@@ -5,12 +5,22 @@ using UnityEngine;
 public class BombController : MonoBehaviour
 {
 
+#region "Inspector Fields"
     [SerializeField] float explodeTimer = 2f;
     [SerializeField] GameObject explosion;
     [SerializeField] AudioClip explosionFX;
+#endregion
+
+
+    [HideInInspector]
+    public Player playerOwner {get;set;}
+
+    
     float elapsedDuration = 0f;
     AudioManager audioManager;
 
+    
+    
     private void Awake()
     {
         audioManager = FindObjectOfType<AudioManager>();

@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Walls
+  - Bomb
+  - Explosion
+  - Stones
+  - Background
   layers:
   - Default
   - TransparentFX
@@ -14,8 +18,8 @@ TagManager:
   - UI
   - Player
   - Walls
-  - 
-  - 
+  - Bomb
+  - Items
   - 
   - 
   - 
@@ -50,6 +54,9 @@ TagManager:
     locked: 0
   - name: Topground
     uniqueID: 2145086061
+    locked: 0
+  - name: Items
+    uniqueID: 1170097791
     locked: 0
   - name: Player
     uniqueID: 3558611681

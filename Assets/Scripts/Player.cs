@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject bombPrefab;
     Grid cellgrid;
 
+    int droppedBomb = 0;
     BoxCollider2D boxColliderLeft;
     BoxCollider2D boxColliderRight;
     BoxCollider2D boxColliderTop;
@@ -97,10 +98,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("boxColliderLeft" + boxColliderLeft.IsTouching(other).ToString());
-        //Debug.Log("boxColliderRight" + boxColliderRight.IsTouching(other).ToString());
-        //Debug.Log("boxColliderTop" + boxColliderTop.IsTouching(other).ToString());
-        //Debug.Log("boxColliderBottom" + boxColliderBottom.IsTouching(other).ToString());
     }
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -110,10 +107,6 @@ public class Player : MonoBehaviour
             if (bc != null && bc.playerOwner == this)
                 bc.GetComponent<BoxCollider2D>().isTrigger = false;
         }
-        //Debug.Log("boxColliderLeft" + boxColliderLeft.IsTouching(other).ToString());
-        //Debug.Log("boxColliderRight" + boxColliderRight.IsTouching(other).ToString());
-        //Debug.Log("boxColliderTop" + boxColliderTop.IsTouching(other).ToString());
-        //Debug.Log("boxColliderBottom" + boxColliderBottom.IsTouching(other).ToString());
     }
     void OnMove(InputValue value)
     {
@@ -122,7 +115,7 @@ public class Player : MonoBehaviour
 
     void OnFire()
     {
-        if (bombCount > 0)
+        if (droppedBomb < bombCount)
         {
             var pos = transform.position;
 
@@ -136,7 +129,12 @@ public class Player : MonoBehaviour
             //GameManager.Instance.CreateBomb(this, pos);
             var bomb = Instantiate(bombPrefab, pos, Quaternion.identity);
             bomb.GetComponent<BombController>().playerOwner = this;
+            droppedBomb++;
         }
     }
 
+    public void IncreaseAvailableBombQuantity()
+    {
+        this.droppedBomb--;
+    }
 }

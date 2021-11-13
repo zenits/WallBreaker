@@ -50,6 +50,8 @@ public class BombController : MonoBehaviour
             if (explosionFX != null)
                 audioManager.PlayExplosionFX();
 
+            playerOwner.IncreaseAvailableBombQuantity();
+            
             Destroy(gameObject);
         }
     }

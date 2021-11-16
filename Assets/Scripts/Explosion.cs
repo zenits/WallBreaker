@@ -86,6 +86,7 @@ public class Explosion : MonoBehaviour
     void DestroyStone(Vector3Int cell)
     {
         stoneTilemap.SetTile(cell, null);
+        ItemManager.Instance.PopRandomPowerUp(cell);
     }
     // Update is called once per frame
     void Update()

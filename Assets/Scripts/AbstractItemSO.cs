@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class PowerUp : ScriptableObject
+public abstract class AbstractItemSO : ScriptableObject
 {
     [SerializeField] Sprite sprite;
 
@@ -12,6 +12,8 @@ public abstract class PowerUp : ScriptableObject
     [SerializeField]  bool applyOnOtherPlayers = false;
 
     public abstract void ApplyPowerUp(PlayerStats player, bool isCurrentPlayer);
+
+    public Sprite GetSprite() {return sprite;}
 }
 
 

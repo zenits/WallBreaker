@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu( menuName = "PowerUp/Bomb" , fileName = "New Bomb")]
-public class PowerUp_Bomb : PowerUp
+public class ItemSO : AbstractItemSO
 {
 
     [SerializeField] int maxBombCountModifier = 1;

@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     {
         var maps = FindObjectsOfType<Tilemap>();
         var wallTilemap = maps.Where(x => x.tag == "Walls").SingleOrDefault();
-        var pos = transform.position + new Vector3(wallTilemap.cellSize.x * cellPosition.x, wallTilemap.cellSize.y  * cellPosition.y, 0f);
+        var pos = transform.position + new Vector3(wallTilemap.cellSize.x / 2 + wallTilemap.cellSize.x * cellPosition.x, wallTilemap.cellSize.y / 2 + wallTilemap.cellSize.y * cellPosition.y, 0f);
         return pos;
     }
     public Vector3Int ConvertWorldToCell(Vector3 worldPosition)

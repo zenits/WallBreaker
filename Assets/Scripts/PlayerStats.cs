@@ -14,6 +14,6 @@ public class PlayerStats : ScriptableObject
     [SerializeField] float slowMoveSpeed = 5f;
     [SerializeField] float hightMoveSpeed = 8f;
 
-    [SerializeField] List<PowerUp> powerUpList;
+    [SerializeField] List<AbstractItemSO> powerUpList;
 
 }

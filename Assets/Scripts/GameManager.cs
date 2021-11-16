@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,9 +33,21 @@ public class GameManager : MonoBehaviour
         go.GetComponent<Explosion>().isSourceOfExplosion = isSource;
     }
 
-    public void CreateBomb(Player player, Vector3 position)
+
+
+
+    public Vector3 ConvertTileToWorld(Vector3Int cellPosition)
     {
-
+        var maps = FindObjectsOfType<Tilemap>();
+        var wallTilemap = maps.Where(x => x.tag == "Walls").SingleOrDefault();
+        var pos = transform.position + new Vector3(wallTilemap.cellSize.x * cellPosition.x, wallTilemap.cellSize.y  * cellPosition.y, 0f);
+        return pos;
     }
-
+    public Vector3Int ConvertWorldToCell(Vector3 worldPosition)
+    {
+        var maps = FindObjectsOfType<Tilemap>();
+        var wallTilemap = maps.Where(x => x.tag == "Walls").SingleOrDefault();
+        Vector3Int currentCell = wallTilemap.WorldToCell(worldPosition);
+        return currentCell;
+    }
 }

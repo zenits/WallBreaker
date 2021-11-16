@@ -5,6 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     AudioSource audioSource;
+    [SerializeField]
     AudioClip bombExplosionFX;
 
     private void Awake()
@@ -14,7 +15,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayExplosionFX()
     {
-
+        AudioSource.PlayClipAtPoint(bombExplosionFX, Camera.main.transform.position);
     }
 
 

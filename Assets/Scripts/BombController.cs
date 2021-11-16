@@ -57,7 +57,7 @@ public class BombController : MonoBehaviour
                 //GameManager.Instance.CreateExplosion(transform.position, null, true);
                 Explosion.Create(explosion, transform.position, explosionRange, true);
             //Instantiate(explosion, transform.position, Quaternion.identity);
-            if (explosionFX != null)
+            //if (explosionFX != null)
                 audioManager.PlayExplosionFX();
 
             playerOwner.IncreaseAvailableBombQuantity();

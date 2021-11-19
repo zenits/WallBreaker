@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: ItemBombRangeMinus
-  m_EditorClassIdentifier: Assembly-CSharp::PowerUp_Bomb
-  sprite: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 0ad4046f600abad47893ca46a276b9c4, type: 3}
+  m_Name: ItemFlameMinus
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 03d233c76e2059e4586e3defe638684d, type: 3}
   applyOnCurrentPlayer: 1
   duration: 0
   applyOnOtherPlayers: 0
-  maxBombCountModifier: 1
-  explosionRangeModifier: 1
+  maxBombCountModifier: 0
+  explosionRangeModifier: -1

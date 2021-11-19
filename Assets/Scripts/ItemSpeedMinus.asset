@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ad4046f600abad47893ca46a276b9c4, type: 3}
-  m_Name: ItemBombCountMinus
+  m_Name: ItemSpeedMinus
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 9aeefa42f873fb64ab35a7398060286b, type: 3}
+  sprite: {fileID: 21300000, guid: bd3002ff292e9464da47bc3f2d41f359, type: 3}
   applyOnCurrentPlayer: 1
   duration: 0
   applyOnOtherPlayers: 0
   maxBombCountModifier: -1
-  explosionRangeModifier: 0
+  explosionRangeModifier: -1

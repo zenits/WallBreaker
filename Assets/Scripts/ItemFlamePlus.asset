@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ad4046f600abad47893ca46a276b9c4, type: 3}
-  m_Name: IncreaseExplosionRange
+  m_Name: ItemFlamePlus
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 273aff995c7cfec4ba71eb4e7872eb78, type: 3}
   applyOnCurrentPlayer: 1
+  duration: 0
   applyOnOtherPlayers: 0
-  maxBombCountModifier: 1
+  maxBombCountModifier: 0
   explosionRangeModifier: 1

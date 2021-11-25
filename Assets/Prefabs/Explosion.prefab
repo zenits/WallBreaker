@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3913177820863118753}
   - component: {fileID: 48601144}
   - component: {fileID: -3665378534478618501}
+  - component: {fileID: 720662221841749417}
   m_Layer: 8
   m_Name: Explosion
   m_TagString: Explosion
@@ -165,3 +166,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &720662221841749417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3913177820863118758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6a3ab1e7ee707468fdcc70ffe39744, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

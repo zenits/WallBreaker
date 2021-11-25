@@ -9,7 +9,7 @@ TagManager:
   - Explosion
   - Stones
   - Background
-  - PowerUp
+  - Item
   layers:
   - Default
   - TransparentFX

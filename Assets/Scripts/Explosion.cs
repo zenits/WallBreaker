@@ -46,11 +46,7 @@ public class Explosion : MonoBehaviour
         stoneTilemap = maps.Where(x => x.tag == "Stones").SingleOrDefault();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
+  
     private void Propagate()
     {
         if (!isSourceOfExplosion || currentRange >= explosionRange)

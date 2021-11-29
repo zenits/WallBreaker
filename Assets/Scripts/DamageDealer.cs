@@ -13,19 +13,17 @@ public class DamageDealer : MonoBehaviour
     bool damageDealed = false;
     bool dealingDamage = false;
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        ApplyDamage(other.gameObject);
-    }
 
-    private void OnCollisionStay2D(Collision2D other)
-    {
+    private void OnTriggerEnter2D(Collider2D other) {
         ApplyDamage(other.gameObject);
     }
-    private void OnCollisionExit2D(Collision2D other)
-    {
+    private void OnTriggerStay2D(Collider2D other) {
+        ApplyDamage(other.gameObject);
+    }
+    private void OnTriggerExit2D(Collider2D other) {
         dealingDamage = false;
     }
+
 
     private void Update()
     {

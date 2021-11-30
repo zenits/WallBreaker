@@ -119,22 +119,20 @@ public class Player : MonoBehaviour
             var pos = transform.position;
 
             var cellPosition = bgTilemap.WorldToCell(transform.position);
-
-            pos = new Vector3((int)System.Math.Truncate(transform.position.x / cellgrid.cellSize.x) * cellgrid.cellSize.x - cellgrid.cellSize.x / 2,
-                              (int)System.Math.Truncate(transform.position.y / cellgrid.cellSize.y) * cellgrid.cellSize.y + cellgrid.cellSize.x / 2,
-                              0);
-
+            if (GameManager.Instance.ExistsBombOnCell(cellPosition))
+                return;
             pos = bgTilemap.CellToWorld(cellPosition) + (cellgrid.cellSize / 2);
-            //GameManager.Instance.CreateBomb(this, pos);
+            var bc = GameManager.Instance.CreateBomb(bombPrefab, cellPosition, explosionRange);
             //var bomb = Instantiate(bombPrefab, pos, Quaternion.identity);
             //bomb.GetComponent<BombController>().playerOwner = this;
-            var bc = BombController.Create(bombPrefab, pos, explosionRange);
+            //var bc = BombController.Create(bombPrefab, pos, explosionRange);
             bc.playerOwner = this;
+            bc.OnExplode += IncreaseAvailableBombQuantity;
             droppedBomb++;
         }
     }
 
-    public void IncreaseAvailableBombQuantity()
+    public void IncreaseAvailableBombQuantity(BombController bc)
     {
         this.droppedBomb--;
     }

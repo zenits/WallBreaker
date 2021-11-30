@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,31 @@ public class GameManager : MonoBehaviour
 {
 
     [SerializeField] GameObject explosionPrefab;
-    List<BombController> bombs = new List<BombController>();
 
     public static GameManager Instance { get; private set; }
 
+
+    List<Tuple<Vector3Int, BombController>> bombs = new List<Tuple<Vector3Int, BombController>>();
+
+    Grid cellgrid;
+    Tilemap bgTilemap;
     private void Awake()
     {
         int sessionCount = FindObjectsOfType<GameManager>().Length;
         if (sessionCount > 1)
         {
             Destroy(gameObject);
+            return;
         }
         else
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        var maps = FindObjectsOfType<Tilemap>();
+        bgTilemap = maps.Where(x => x.tag == "Background").SingleOrDefault();
+        cellgrid = FindObjectOfType<Grid>();
     }
 
 
@@ -34,7 +44,25 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public BombController CreateBomb(GameObject bombPrefab, Vector3Int cellPosition, int explosionRange)
+    {
+        var pos = bgTilemap.CellToWorld(cellPosition) + (cellgrid.cellSize / 2);
+        var bc = BombController.Create(bombPrefab, pos, explosionRange);
+        bc.OnExplode += OnBombExplode;
+        bombs.Add(new Tuple<Vector3Int, BombController>(cellPosition, bc));
+        return bc;
+    }
 
+    public void OnBombExplode(BombController bombController)
+    {
+        var bc = bombs.First(i => i.Item2 == bombController);
+        bombs.Remove(bc);
+    }
+
+    public bool ExistsBombOnCell(Vector3Int cellPosition)
+    {
+        return bombs.Exists(i => i.Item1.Equals(cellPosition));
+    }
 
     public Vector3 ConvertTileToWorld(Vector3Int cellPosition)
     {

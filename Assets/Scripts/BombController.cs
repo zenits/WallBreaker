@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class BombController : MonoBehaviour
     AudioManager audioManager;
 
 
+    public event Action<BombController> OnExplode;
 
     public static BombController Create(GameObject bomPrefab, Vector3 position, int explosionRange)
     {
@@ -35,13 +37,11 @@ public class BombController : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         elapsedDuration += Time.deltaTime;
@@ -54,13 +54,12 @@ public class BombController : MonoBehaviour
         if (elapsedDuration >= explodeTimer)
         {
             if (explosion != null)
-                //GameManager.Instance.CreateExplosion(transform.position, null, true);
                 Explosion.Create(explosion, transform.position, explosionRange, true);
-            //Instantiate(explosion, transform.position, Quaternion.identity);
-            //if (explosionFX != null)
-                audioManager.PlayExplosionFX();
 
-            playerOwner.IncreaseAvailableBombQuantity();
+            audioManager.PlayExplosionFX();
+
+            if (OnExplode != null)
+                OnExplode(this);
 
             Destroy(gameObject);
         }

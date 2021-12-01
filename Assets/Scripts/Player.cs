@@ -17,50 +17,20 @@ public class Player : MonoBehaviour
     [SerializeField] int explosionRange = 1;
 
 
-    Grid cellgrid;
     int droppedBomb = 0;
-    BoxCollider2D boxColliderLeft;
-    BoxCollider2D boxColliderRight;
-    BoxCollider2D boxColliderTop;
-    BoxCollider2D boxColliderBottom;
-
-    Tilemap bgTilemap;
 
     private void Awake()
     {
-        var maps = FindObjectsOfType<Tilemap>();
-        bgTilemap = maps.Where(x => x.tag == "Background").SingleOrDefault();
-
-        cellgrid = FindObjectOfType<Grid>();
         myRigidbody2D = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
-        var colliders = GetComponents<BoxCollider2D>();
-        foreach (var collider in colliders)
-        {
-            if (collider.offset.x == 1)
-                boxColliderRight = collider;
-            else if (collider.offset.x == -1)
-                boxColliderLeft = collider;
-            else if (collider.offset.y == 1)
-                boxColliderTop = collider;
-            else if (collider.offset.y == -1)
-                boxColliderBottom = collider;
-        }
-
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    
     private void FixedUpdate()
     {
         Move();
         UpdateAnimation();
     }
-    void Update()
-    {
-    }
+    
 
     void Move()
     {
@@ -118,14 +88,10 @@ public class Player : MonoBehaviour
         {
             var pos = transform.position;
 
-            var cellPosition = bgTilemap.WorldToCell(transform.position);
+            var cellPosition = GameManager.Instance.ConvertWorldToCell(transform.position);
             if (GameManager.Instance.ExistsBombOnCell(cellPosition))
                 return;
-            pos = bgTilemap.CellToWorld(cellPosition) + (cellgrid.cellSize / 2);
             var bc = GameManager.Instance.CreateBomb(bombPrefab, cellPosition, explosionRange);
-            //var bomb = Instantiate(bombPrefab, pos, Quaternion.identity);
-            //bomb.GetComponent<BombController>().playerOwner = this;
-            //var bc = BombController.Create(bombPrefab, pos, explosionRange);
             bc.playerOwner = this;
             bc.OnExplode += IncreaseAvailableBombQuantity;
             droppedBomb++;

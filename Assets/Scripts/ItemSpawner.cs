@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemManager : MonoBehaviour
+public class ItemSpawner : MonoBehaviour
 {
     [SerializeField]
-    GameObject powerUpPrefab;
+    GameObject itemPrefab;
 
     [SerializeField]
-    List<AbstractItemSO> availablePowerUpList = new List<AbstractItemSO>();
+    List<ItemSO> availablePowerUpList = new List<ItemSO>();
 
-    public static ItemManager Instance { get; private set; }
+    public static ItemSpawner Instance { get; private set; }
 
     private void Awake()
     {
-        int sessionCount = FindObjectsOfType<ItemManager>().Length;
+        int sessionCount = FindObjectsOfType<ItemSpawner>().Length;
         if (sessionCount > 1)
         {
             Destroy(gameObject);
@@ -30,7 +30,6 @@ public class ItemManager : MonoBehaviour
     public static GameObject Create(GameObject prefab, Vector3 position)
     {
         GameObject newObject = Instantiate(prefab, position, Quaternion.identity) as GameObject;
-        //AbstractItemSO result = newObject.GetComponent<AbstractItemSO>();
         return newObject;
     }
 
@@ -40,8 +39,9 @@ public class ItemManager : MonoBehaviour
         int index = Random.Range(-1, availablePowerUpList.Count);
         if (index == -1)
             return;
-        var item = ItemManager.Create(powerUpPrefab, GameManager.Instance.ConvertTileToWorld(cellPosition));
+        var item = ItemSpawner.Create(itemPrefab, GameManager.Instance.ConvertTileToWorld(cellPosition));
         item.GetComponent<SpriteRenderer>().sprite = availablePowerUpList[index].GetSprite();
+        item.GetComponent<Item>().item = availablePowerUpList[index];
 
     }
 }

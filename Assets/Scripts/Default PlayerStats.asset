@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed106e7d1fd903644b726ff8c5771744, type: 3}
-  m_Name: New PlayerData
+  m_Name: Default PlayerStats
   m_EditorClassIdentifier: 
-  defaultMoveSpeed: 2.5
-  slowMoveSpeed: 5
+  maxBombCount: 1
+  explosionRange: 1
+  defaultMoveSpeed: 5
+  slowMoveSpeed: 2
   hightMoveSpeed: 8
   powerUpList: []

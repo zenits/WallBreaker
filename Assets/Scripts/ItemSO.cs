@@ -3,15 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu( menuName = "PowerUp/Bomb" , fileName = "New Bomb")]
-public class ItemSO : AbstractItemSO
+[CreateAssetMenu(menuName = "Item", fileName = "New Item")]
+public class ItemSO : ScriptableObject, IItem
 {
 
+    [SerializeField] Sprite sprite;
+
+    [SerializeField] bool applyOnCurrentPlayer = true;
+    [SerializeField] float duration = 0f;
+    [SerializeField] bool applyOnOtherPlayers = false;
+
+    public Sprite GetSprite() { return sprite; }
     [SerializeField] int maxBombCountModifier = 1;
     [SerializeField] int explosionRangeModifier = 1;
-    public override void ApplyPowerUp(PlayerStats player, bool isCurrentPlayer)
+
+    public void ApplyPowerUp(PlayerStats playerStats, bool isCurrentPlayer)
     {
-        player.maxBombCount += maxBombCountModifier;
-        player.explosionRange += explosionRangeModifier;
+        playerStats.maxBombCount = Mathf.Clamp(playerStats.maxBombCount + maxBombCountModifier, 1, 99);
+        playerStats.explosionRange = Mathf.Clamp(playerStats.explosionRange + explosionRangeModifier, 1, 99);
     }
+}
+
+
+public interface IItem
+{
+    void ApplyPowerUp(PlayerStats player, bool isCurrentPlayer);
+    Sprite GetSprite();
 }

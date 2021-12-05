@@ -7,31 +7,50 @@ using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
 {
-
+    // -------------------------------------------------
+    // Private fields
     Vector2 moveInput;
     Rigidbody2D myRigidbody2D;
     Animator myAnimator;
-    [SerializeField] int bombCount = 1;
-    [SerializeField] float moveSpeed = 5f;
-    [SerializeField] GameObject bombPrefab;
-    [SerializeField] int explosionRange = 1;
-
-
     int droppedBomb = 0;
 
+
+    // -------------------------------------------------
+    // Serialized property
+    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] GameObject bombPrefab;
+    [SerializeField] PlayerStats stats;
+
+
+
+    // -------------------------------------------------
+    // Unity Methods
     private void Awake()
     {
         myRigidbody2D = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
     }
-    
+
     private void FixedUpdate()
     {
         Move();
         UpdateAnimation();
     }
-    
 
+    // -------------------------------------------------
+    // Collision Events
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Bomb")
+        {
+            var bc = other.GetComponent<BombController>();
+            if (bc != null && bc.playerOwner == this)
+                bc.GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+    }
+
+    // -------------------------------------------------
+    // Private Methods
     void Move()
     {
         myRigidbody2D.velocity = moveInput * moveSpeed;
@@ -68,15 +87,13 @@ public class Player : MonoBehaviour
 
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    public void IncreaseAvailableBombQuantity(BombController bc)
     {
-        if (other.tag == "Bomb")
-        {
-            var bc = other.GetComponent<BombController>();
-            if (bc != null && bc.playerOwner == this)
-                bc.GetComponent<BoxCollider2D>().isTrigger = false;
-        }
+        this.droppedBomb--;
     }
+
+    // -------------------------------------------------
+    // Input System Events
     void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -84,22 +101,21 @@ public class Player : MonoBehaviour
 
     void OnFire()
     {
-        if (droppedBomb < bombCount)
+        if (droppedBomb < stats.maxBombCount)
         {
             var pos = transform.position;
 
             var cellPosition = GameManager.Instance.ConvertWorldToCell(transform.position);
             if (GameManager.Instance.ExistsBombOnCell(cellPosition))
                 return;
-            var bc = GameManager.Instance.CreateBomb(bombPrefab, cellPosition, explosionRange);
+            var bc = GameManager.Instance.CreateBomb(bombPrefab, cellPosition, stats.explosionRange);
             bc.playerOwner = this;
             bc.OnExplode += IncreaseAvailableBombQuantity;
             droppedBomb++;
         }
     }
 
-    public void IncreaseAvailableBombQuantity(BombController bc)
-    {
-        this.droppedBomb--;
-    }
+    // -------------------------------------------------
+    // Property Getter
+    public PlayerStats GetStats() { return stats; }
 }

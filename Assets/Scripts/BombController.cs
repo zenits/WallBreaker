@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombController : MonoBehaviour
+public class BombController : MonoBehaviour, IDamageable
 {
 
     #region "Inspector Fields"
@@ -46,22 +46,25 @@ public class BombController : MonoBehaviour
     {
         elapsedDuration += Time.deltaTime;
 
-        Explode();
+        if (elapsedDuration >= explodeTimer)
+            Explode();
     }
 
     void Explode()
     {
-        if (elapsedDuration >= explodeTimer)
-        {
-            if (explosion != null)
-                Explosion.Create(explosion, transform.position, explosionRange, true);
+        if (explosion != null)
+            Explosion.Create(explosion, transform.position, explosionRange, true);
 
-            audioManager.PlayExplosionFX();
+        audioManager.PlayExplosionFX();
 
-            if (OnExplode != null)
-                OnExplode(this);
+        if (OnExplode != null)
+            OnExplode(this);
 
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
+    }
+
+    public void GetDamage(int damageValue)
+    {
+        Explode();
     }
 }

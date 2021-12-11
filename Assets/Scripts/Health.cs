@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
     [SerializeField] int health = 10;
 
     public event Action onChange;
+    public event Action onDie;
 
     public int DoDamage(int damageValue)
     {
@@ -31,5 +32,7 @@ public class Health : MonoBehaviour
     {
         if (onChange != null)
             onChange();
+        if (onDie != null && health <= 0)
+            onDie();
     }
 }

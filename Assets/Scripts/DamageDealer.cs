@@ -14,13 +14,16 @@ public class DamageDealer : MonoBehaviour
     bool dealingDamage = false;
 
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         ApplyDamage(other.gameObject);
     }
-    private void OnTriggerStay2D(Collider2D other) {
+    private void OnTriggerStay2D(Collider2D other)
+    {
         ApplyDamage(other.gameObject);
     }
-    private void OnTriggerExit2D(Collider2D other) {
+    private void OnTriggerExit2D(Collider2D other)
+    {
         dealingDamage = false;
     }
 
@@ -38,14 +41,17 @@ public class DamageDealer : MonoBehaviour
         {
             return;
         }
-        var health = obj.GetComponent<Health>();
-        if (health != null)
+
+        IDamageable idam = obj.GetComponent<IDamageable>();
+        if (idam != null)
         {
-
-            //if (!damageOverTime)
-            health.DoDamage(damageValue);
-
+            idam.GetDamage(damageValue);
             damageDealed = true;
         }
     }
+}
+
+public interface IDamageable
+{
+    void GetDamage(int damageValue);
 }

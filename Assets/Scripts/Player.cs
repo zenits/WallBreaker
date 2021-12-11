@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     // -------------------------------------------------
     // Private fields
@@ -21,7 +21,8 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject bombPrefab;
     [SerializeField] PlayerStats stats;
 
-
+    Health myHealth;
+    Shield myShield;
 
     // -------------------------------------------------
     // Unity Methods
@@ -29,6 +30,8 @@ public class Player : MonoBehaviour
     {
         myRigidbody2D = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        myHealth = GetComponent<Health>();
+        myShield = GetComponent<Shield>();
     }
 
     private void FixedUpdate()
@@ -118,4 +121,10 @@ public class Player : MonoBehaviour
     // -------------------------------------------------
     // Property Getter
     public PlayerStats GetStats() { return stats; }
+
+    public void GetDamage(int damageValue)
+    {
+        damageValue = myShield.DoDamage(damageValue);
+        myHealth.DoDamage(damageValue);
+    }
 }

@@ -3,29 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Shield : MonoBehaviour
 {
 
-    [SerializeField] int health = 10;
+    [SerializeField] int shield = 10;
 
     public event Action onChange;
 
+    
+    /// Return overload damage
     public int DoDamage(int damageValue)
     {
-        int result = Mathf.Max(0, damageValue - health);
-        health = Mathf.Max(0, health - damageValue);
+        int result = Mathf.Max(0, damageValue - shield);
+        shield = Mathf.Max(0, shield - damageValue);
         Notify();
         return result;
     }
 
-    public void Heal(int healValue)
+    public void Restore(int shieldValue)
     {
-        health += healValue;
+        shield += shieldValue;
         Notify();
     }
 
-    public int GetHealth()
-    { return health; }
+    public int GetShield()
+    { return shield; }
 
     void Notify()
     {

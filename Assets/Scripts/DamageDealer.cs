@@ -16,10 +16,12 @@ public class DamageDealer : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+            Debug.Log("trigger enter" + other.ToString() + "  " + other.name);
         ApplyDamage(other.gameObject);
     }
     private void OnTriggerStay2D(Collider2D other)
     {
+            //Debug.Log("trigger stay" + "  " + other.name);
         ApplyDamage(other.gameObject);
     }
     private void OnTriggerExit2D(Collider2D other)
@@ -36,6 +38,7 @@ public class DamageDealer : MonoBehaviour
 
     void ApplyDamage(GameObject obj)
     {
+        
         dealingDamage = true;
         if (damageDealed && !damageOverTime)
         {
@@ -45,8 +48,9 @@ public class DamageDealer : MonoBehaviour
         IDamageable idam = obj.GetComponent<IDamageable>();
         if (idam != null)
         {
-            idam.GetDamage(damageValue);
             damageDealed = true;
+            Debug.Log("Apply Damage" + obj.ToString());
+            idam.GetDamage(damageValue);
         }
     }
 }

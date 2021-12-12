@@ -190,7 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   bombPrefab: {fileID: 814334535116437361, guid: 0bec56ca419f19d47bff3eaf73616aa0, type: 3}
-  stats: {fileID: 0}
+  stats: {fileID: 11400000, guid: 0afe14b70f2c6f74d86f1dc4d19bc345, type: 2}
 --- !u!114 &525800452880845463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +203,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de69355cbe3d68149abc320a8601c614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  value: 10
+  _minValue: 0
+  _maxValue: 10
   health: 10
 --- !u!114 &1742072836586191902
 MonoBehaviour:
@@ -216,7 +219,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bb7da59093d5a44aea9c1f3d87ade3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shield: 5
+  value: 10
+  _minValue: 0
+  _maxValue: 10
 --- !u!1 &2463717468780694717
 GameObject:
   m_ObjectHideFlags: 0

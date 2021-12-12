@@ -3,35 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shield : MonoBehaviour
+public class Shield : IntValue
 {
-
-    [SerializeField] int shield = 10;
-
-    public event Action onChange;
-
     
     /// Return overload damage
     public int DoDamage(int damageValue)
     {
-        int result = Mathf.Max(0, damageValue - shield);
-        shield = Mathf.Max(0, shield - damageValue);
-        Notify();
+        var result = base.Decrease(damageValue);
         return result;
     }
 
     public void Restore(int shieldValue)
     {
-        shield += shieldValue;
-        Notify();
+        base.Increase(shieldValue);
     }
 
     public int GetShield()
-    { return shield; }
+    { return GetValue(); }
 
-    void Notify()
-    {
-        if (onChange != null)
-            onChange();
-    }
 }
